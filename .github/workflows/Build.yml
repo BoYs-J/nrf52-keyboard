@@ -3,7 +3,6 @@ name: Build ALL
 on:
   workflow_dispatch:
   push:
-  workflow_dispatch:
 
 jobs:
   build:
