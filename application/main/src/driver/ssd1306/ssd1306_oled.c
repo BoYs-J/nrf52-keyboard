@@ -176,11 +176,12 @@ static void ssd1306_show_all()
  * @brief 清空Buff
  * 
  */
+/**
 void ssd1306_clr()
 {
     memset(ssd1306_display_buffer, 0, sizeof(ssd1306_display_buffer));
 }
-
+ */
 /**
  * @brief 进入睡眠状态
  * 
