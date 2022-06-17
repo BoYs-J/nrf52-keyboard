@@ -8,7 +8,7 @@ OUTPUT_DIR = $(OUTPUT_DIRECTORY)
 export RELEASE_DIR = ../$(OUTPUT_DIR)/..
 endif
 ifndef BUILD_PREFIX
-BUILD_PREFIX = "Omega40"
+BUILD_PREFIX = "FX980"
 endif
 
 .PHONY: clean release package usb merge_setting all dist_clean
