@@ -94,6 +94,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define RGB_MATRIX_STARTUP_VAL RGB_MATRIX_MAXIMUM_BRIGHTNESS // Sets the default brightness value, if none has been set
 #define RGB_MATRIX_CENTER { 125, 36 }
 #define RGB_MATRIX_INDICATORS_CAPS 55
+#define RGB_MATRIX_INDICATORS_NLCK 33
 #define RGB_MATRIX_INDICATORS_HOST 0
 
 // 3灯指示配置引脚

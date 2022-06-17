@@ -22,10 +22,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "app_error.h"
 #include "app_scheduler.h"
 #include "nrf_delay.h"
-#include "nrf_gpio.h"
 
-#include "events.h"
 #include "keyboard_battery.h"
+#include "events.h"
 #include "keyboard_evt.h"
 #include "passkey.h"
 #include "power_save.h"
@@ -130,16 +129,6 @@ static void ssd1306_twi_init()
     twi_channel = shared_i2c_init(SSD1306_SDA, SSD1306_SCL);
     if (twi_channel == NULL)
         APP_ERROR_HANDLER(1);
-}
-
-/**
- * @brief 释放OLED针脚
- * 
- */
-static void ssd1306_oled_uninit()
-{
-    nrf_gpio_cfg_default(SSD1306_SDA);
-    nrf_gpio_cfg_default(SSD1306_SCL);
 }
 
 /**
@@ -266,7 +255,7 @@ static void status_mark_dirty()
     }
 }
 
-static bool ssd1306_inited = false;
+static bool ssd1306_inited = false, ssd1306_init_show = false;
 
 static void ssd1306_event_handler(enum user_event event, void* arg)
 {
@@ -277,18 +266,15 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
         case KBD_STATE_POST_INIT: // 初始化
             ssd1306_twi_init();
             ssd1306_oled_init();
-            // ssd1306_clr();
             ssd1306_inited = true;
             break;
         case KBD_STATE_INITED: // 显示Buff
-            update_status_bar();
             ssd1306_show_all();
             break;
         case KBD_STATE_SLEEP: // 睡眠
             if (ssd1306_inited) {
                 ssd1306_sleep();
                 nrf_delay_ms(10);
-                ssd1306_oled_uninit();
             }
             break;
         default:
@@ -335,8 +321,21 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
         keyboard_led = param;
         status_mark_dirty();
         break;
-	case USER_EVT_TICK:
-        ssd1306_show_dirty_block();
+    case USER_EVT_INTERNAL:
+        switch (param) {
+        case INTERNAL_EVT_BATTERY_INFO_REFRESH:
+            //oled_draw_icons(0, battery_info.percentage, pwr_attach, conn_type, passkey_req, keyboard_led); //更新电池状态
+            break;
+        default:
+            break;
+        }
+        break;
+    case USER_EVT_TICK:
+        if (ssd1306_inited && !ssd1306_init_show) {
+            ssd1306_init_show = true;
+            ssd1306_clr();
+            update_status_bar();
+        }
         break;
     default:
         break;
