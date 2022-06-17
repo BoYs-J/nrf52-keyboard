@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DEVICE_VER 0x0000 /* 硬件版本 */
 #define MANUFACTURER "BoYs" /* 硬件制造商，用于蓝牙显示 */
 #define PRODUCT "FX-980" /* 硬件名词，用于蓝牙显示 */
-#define MACADDR_SEPRATOR ' ' /* 蓝牙名称后地址的分隔符。若不设置则不显示蓝牙名称后面的地址 */
+// #define MACADDR_SEPRATOR ' ' /* 蓝牙名称后地址的分隔符。若不设置则不显示蓝牙名称后面的地址 */
 
 /* USB HID report parameter */
 #define KEYBOARD_EPSIZE 8 /* 键盘上传端点大小，请不要修改 */
@@ -45,7 +45,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define KEYBOARD_FAST_SCAN_INTERVAL 10 // 通常模式下，多久扫描一次键盘 (ms)
 #define KEYBOARD_SLOW_SCAN_INTERVAL 100 // 慢速模式下，多久扫描一次键盘 (ms)
 #define LED_AUTOOFF_TIME 5 /* LED自动熄灭时长(s)，设为0则不自动熄灭 */
-#define DCDC_ENABLED //启用DCDC电源模式
+// #define DCDC_ENABLED //启用DCDC电源模式
 
 // 键盘额外功能
 //#define DYNAMIC_TX_POWER /* 启用自动发射功率调整 */
