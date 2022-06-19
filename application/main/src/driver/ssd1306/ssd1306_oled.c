@@ -326,12 +326,9 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
         } 
         else if (param == PASSKEY_STATE_SEND) {
             // 清空配对码的显示
-            ssd1306_clr();
+            ssd1306_show_all();
         }
         status_mark_dirty();
-        case KBD_STATE_INITED: // 显示Buff
-        update_status_bar();
-        ssd1306_show_all();
         break;
 
     case USER_EVT_BLE_STATE_CHANGE: // 蓝牙状态
