@@ -290,6 +290,7 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
                 nrf_delay_ms(10);
                 ssd1306_oled_uninit();
             }
+            status_mark_dirty();
             break;
         default:
             break;
@@ -328,7 +329,6 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
             // 清空配对码的显示
             ssd1306_clr();
         }
-        ssd1306_event_handler();
         status_mark_dirty();
         break;
     case USER_EVT_BLE_STATE_CHANGE: // 蓝牙状态
