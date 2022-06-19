@@ -319,13 +319,13 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
         passkey_req = (param != PASSKEY_STATE_SEND);
         if (param == PASSKEY_STATE_INPUT) {
             // 显示输入的配对码
-            ssd1306_clr(),oled_draw_text_16(2, TEXT_ALIGN_CENTER, 0, (const char*)passkey);
+            oled_draw_text_16(2, TEXT_ALIGN_CENTER, 0, (const char*)passkey);
+            ssd1306_show_all();// 加载buff
         } else if (param == PASSKEY_STATE_SEND) {
             // 清空配对码的显示
             oled_clear_row(2);
             oled_clear_row(3);
-            update_status_bar();
-            ssd1306_show_all();// 加载buff
+            ssd1306_clr();
         }
         status_mark_dirty();
         break;
