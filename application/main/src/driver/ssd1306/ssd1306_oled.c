@@ -299,8 +299,6 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
         switch (param) {
         case PWR_SAVE_ENTER:
             ssd1306_sleep();
-            nrf_delay_ms(10);
-            ssd1306_oled_uninit();
             break;
         case PWR_SAVE_EXIT:
             ssd1306_wake();
