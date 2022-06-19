@@ -294,7 +294,6 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
         default:
             break;
         }
-        status_mark_dirty();
         break;
     case USER_EVT_POWERSAVE: // 处理省电模式
         switch (param) {
