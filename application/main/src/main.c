@@ -232,7 +232,7 @@ void notify_sleep(enum sleep_evt_type mode)
 {
     trig_event_param(USER_EVT_SLEEP, mode);
     trig_event_param(USER_EVT_STAGE,KBD_STATE_SLEEP);
-    app_timer_start(sleep_delay_timer, APP_TIMER_TICKS(200), (void*)(uint32_t)mode); //延迟200ms进入睡眠
+    app_timer_start(sleep_delay_timer, APP_TIMER_TICKS(1000), (void*)(uint32_t)mode); //延迟1s进入睡眠
 }
 
 /**

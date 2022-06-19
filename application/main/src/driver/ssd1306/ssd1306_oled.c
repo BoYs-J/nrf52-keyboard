@@ -286,9 +286,9 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
             break;
         case KBD_STATE_SLEEP: // 睡眠
             if (ssd1306_inited) {
+                ssd1306_oled_uninit();
                 ssd1306_sleep();
                 nrf_delay_ms(10);
-                ssd1306_oled_uninit();
             }
             break;
         default:
@@ -324,6 +324,7 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
             // 清空配对码的显示
             oled_clear_row(2);
             oled_clear_row(3);
+            ssd1306_show_all();
         }
         status_mark_dirty();
         break;
