@@ -290,11 +290,11 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
                 nrf_delay_ms(10);
                 ssd1306_oled_uninit();
             }
-            status_mark_dirty();
             break;
         default:
             break;
         }
+        status_mark_dirty();
         break;
     case USER_EVT_POWERSAVE: // 处理省电模式
         switch (param) {
