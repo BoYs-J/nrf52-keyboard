@@ -136,11 +136,11 @@ static void ssd1306_twi_init()
  * @brief 释放OLED针脚
  * 
  */
-static void ssd1306_oled_uninit()
-{
-    nrf_gpio_cfg_default(SSD1306_SDA);
-    nrf_gpio_cfg_default(SSD1306_SCL);
-}
+// static void ssd1306_oled_uninit()
+// {
+//     nrf_gpio_cfg_default(SSD1306_SDA);
+//     nrf_gpio_cfg_default(SSD1306_SCL);
+// }
 
 /**
  * @brief 显示指定行的Buff
