@@ -136,11 +136,11 @@ static void ssd1306_twi_init()
  * @brief 释放OLED针脚
  * 
  */
-// static void ssd1306_oled_uninit()
-// {
-//     nrf_gpio_cfg_default(SSD1306_SDA);
-//     nrf_gpio_cfg_default(SSD1306_SCL);
-// }
+static void ssd1306_oled_uninit()
+{
+    nrf_gpio_cfg_default(SSD1306_SDA);
+    nrf_gpio_cfg_default(SSD1306_SCL);
+}
 
 /**
  * @brief 显示指定行的Buff
@@ -286,9 +286,9 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
             break;
         case KBD_STATE_SLEEP: // 睡眠
             if (ssd1306_inited) {
-                // ssd1306_oled_uninit();// 释放OLED针脚
                 ssd1306_sleep();
                 nrf_delay_ms(10);
+                ssd1306_oled_uninit();
             }
             break;
         default:
@@ -299,6 +299,8 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
         switch (param) {
         case PWR_SAVE_ENTER:
             ssd1306_sleep();
+            nrf_delay_ms(10);
+            ssd1306_oled_uninit();
             break;
         case PWR_SAVE_EXIT:
             ssd1306_wake();
@@ -320,7 +322,6 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
         if (param == PASSKEY_STATE_INPUT) {
             // 显示输入的配对码
             oled_draw_text_16(2, TEXT_ALIGN_CENTER, 0, (const char*)passkey);
-            ssd1306_show_all();// 加载buff
         } else if (param == PASSKEY_STATE_SEND) {
             // 清空配对码的显示
             oled_clear_row(2);
@@ -328,6 +329,7 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
             ssd1306_clr();
         }
         status_mark_dirty();
+        ssd1306_show_all();
         break;
     case USER_EVT_BLE_STATE_CHANGE: // 蓝牙状态
         ble_conn = (param == BLE_STATE_CONNECTED);
