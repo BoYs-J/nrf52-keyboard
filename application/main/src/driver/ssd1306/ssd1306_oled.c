@@ -318,6 +318,7 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
         status_mark_dirty();
         break;
     case USER_EVT_BLE_PASSKEY_STATE: // 配对码状态
+        switch (param) {
         passkey_req = (param != PASSKEY_STATE_SEND);
         if (param == PASSKEY_STATE_INPUT) {
             // 显示输入的配对码
@@ -328,10 +329,14 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
             // 清空配对码的显示
             ssd1306_clr();
         }
-        update_status_bar();
-        ssd1306_show_all();
         status_mark_dirty();
         break;
+        case KBD_STATE_INITED: // 显示Buff
+        update_status_bar();
+        ssd1306_show_all();
+        break;
+        }
+
     case USER_EVT_BLE_STATE_CHANGE: // 蓝牙状态
         ble_conn = (param == BLE_STATE_CONNECTED);
         status_mark_dirty();
