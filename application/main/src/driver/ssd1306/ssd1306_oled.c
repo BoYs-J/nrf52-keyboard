@@ -266,7 +266,7 @@ static void status_mark_dirty()
     }
 }
 
-static bool ssd1306_inited = false;ssd1306_init_show = false;
+static bool ssd1306_inited = false;ssd1306_init_show = false;;
 
 static void ssd1306_event_handler(enum user_event event, void* arg)
 {
