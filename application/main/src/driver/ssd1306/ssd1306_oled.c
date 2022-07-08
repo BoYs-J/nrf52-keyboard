@@ -136,11 +136,11 @@ static void ssd1306_twi_init()
  * @brief 释放OLED针脚
  * 
  */
-// static void ssd1306_oled_uninit()
-// {
-//     nrf_gpio_cfg_default(SSD1306_SDA);
-//     nrf_gpio_cfg_default(SSD1306_SCL);
-// }
+static void ssd1306_oled_uninit()
+{
+    nrf_gpio_cfg_default(SSD1306_SDA);
+    nrf_gpio_cfg_default(SSD1306_SCL);
+}
 
 /**
  * @brief 显示指定行的Buff
@@ -266,7 +266,7 @@ static void status_mark_dirty()
     }
 }
 
-static bool ssd1306_inited = false, ssd1306_init_show = false;
+static bool ssd1306_inited = false;
 
 static void ssd1306_event_handler(enum user_event event, void* arg)
 {
@@ -288,7 +288,7 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
             if (ssd1306_inited) {
                 ssd1306_sleep();
                 nrf_delay_ms(10);
-                //ssd1306_oled_uninit();
+                ssd1306_oled_uninit();
             }
             break;
         default:
@@ -336,13 +336,7 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
         status_mark_dirty();
         break;
 	case USER_EVT_TICK:
-        // ssd1306_show_dirty_block();
-        if (ssd1306_inited && !ssd1306_init_show) {
-            ssd1306_init_show = true;
-            ssd1306_oled_init();
-            ssd1306_clr();
-            update_status_bar();
-        }
+        ssd1306_show_dirty_block();
         break;
     default:
         break;
