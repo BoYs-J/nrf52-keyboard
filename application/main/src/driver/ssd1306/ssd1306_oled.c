@@ -266,7 +266,7 @@ static void status_mark_dirty()
     }
 }
 
-static bool ssd1306_inited = false;
+static bool ssd1306_inited = false;ssd1306_init_show = false;
 
 static void ssd1306_event_handler(enum user_event event, void* arg)
 {
@@ -336,7 +336,13 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
         status_mark_dirty();
         break;
 	case USER_EVT_TICK:
-        ssd1306_show_dirty_block();
+        // ssd1306_show_dirty_block();
+        if (ssd1306_inited && !ssd1306_init_show) {
+            ssd1306_init_show = true;
+            ssd1306_oled_init();
+            ssd1306_clr();
+            update_status_bar();
+        }
         break;
     default:
         break;
