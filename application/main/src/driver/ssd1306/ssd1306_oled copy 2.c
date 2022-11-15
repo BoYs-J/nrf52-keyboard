@@ -22,10 +22,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "app_error.h"
 #include "app_scheduler.h"
 #include "nrf_delay.h"
-#include "nrf_gpio.h"
 
-#include "events.h"
 #include "keyboard_battery.h"
+#include "events.h"
 #include "keyboard_evt.h"
 #include "passkey.h"
 #include "power_save.h"
@@ -49,7 +48,7 @@ const uint8_t ssd1306_init_commands[] = {
     SSD1306_SETSTARTLINE, /** Set display RAM display start line register from 0 - 63. */
     SSD1306_PAGESTARTADDR, /* set page address */
     SSD1306_SETCONTRAST, /** Set Display Contrast to one of 256 steps. */
-    0x80, /* 128 */
+    0xff, /* 128 */
 #ifdef SSD1306_ROTATE_180
     SSD1306_SEGREMAP_RESET, /* set segment remap */
 #else
@@ -57,11 +56,7 @@ const uint8_t ssd1306_init_commands[] = {
 #endif
     SSD1306_NORMALDISPLAY, /** Set Normal Display. */
     SSD1306_SETMULTIPLEX, /** Set Multiplex Ratio from 16 to 63. */
-#if SSD1306_LCDHEIGHT == 64
-    0x3F, /* LCDHEIGHT - 1 */
-#else
-    0x1F, /* LCDHEIGHT - 1 */
-#endif
+    SSD1306_LCDHEIGHT - 1, /* duty = 1/32 */
 #ifdef SSD1306_ROTATE_180
     SSD1306_COMSCANINC, /** Set COM output scan direction normal. */
 #else
@@ -72,13 +67,9 @@ const uint8_t ssd1306_init_commands[] = {
     SSD1306_SETDISPLAYCLOCKDIV, /* set osc division */
     0x80,
     SSD1306_SETPRECHARGE, /* set pre-charge period */
-    0xF1,
+    0x1f,
     SSD1306_SETCOMPINS, /** Sets COM signals pin configuration to match the OLED panel layout. */
-#if SSD1306_LCDHEIGHT == 64
-    0x12, /* duty = 1/32 */
-#else
-    0x02, /* duty = 1/32 */
-#endif
+    0x00,
     SSD1306_SETVCOMDETECT, /** This command adjusts the VCOMH regulator output. */
     0x40,
     SSD1306_MEMORYMODE,
@@ -90,15 +81,11 @@ const uint8_t ssd1306_init_commands[] = {
     0x7F,
     SSD1306_PAGEADDR,
     0x00,
-#if SSD1306_LCDHEIGHT == 64
-    0x07,
-#else
-    0x03,
-#endif
+    SSD1306_ROWS - 1,
     SSD1306_DISPLAYON, /* display ON */
 };
 
-uint8_t ssd1306_display_buffer[128 * SSD1306_LCDHEIGHT / 8] = SSD1306_INIT_BUFF;
+uint8_t ssd1306_display_buffer[128 * SSD1306_ROWS] = SSD1306_INIT_BUFF;
 
 /**
  * @brief 发送命令或数据
@@ -131,16 +118,6 @@ static void ssd1306_twi_init()
     if (twi_channel == NULL)
         APP_ERROR_HANDLER(1);
 }
-
-/**
- * @brief 释放OLED针脚
- * 
- */
-// static void ssd1306_oled_uninit()
-// {
-//     nrf_gpio_cfg_default(SSD1306_SDA);
-//     nrf_gpio_cfg_default(SSD1306_SCL);
-// }
 
 /**
  * @brief 显示指定行的Buff
@@ -266,7 +243,7 @@ static void status_mark_dirty()
     }
 }
 
-static bool ssd1306_inited = false;
+static bool ssd1306_inited = false, ssd1306_init_show = false;
 
 static void ssd1306_event_handler(enum user_event event, void* arg)
 {
@@ -277,17 +254,14 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
         case KBD_STATE_POST_INIT: // 初始化
             ssd1306_twi_init();
             ssd1306_oled_init();
-            //ssd1306_clr();
             ssd1306_inited = true;
             break;
         case KBD_STATE_INITED: // 显示Buff
-            update_status_bar();
             ssd1306_show_all();
             break;
         case KBD_STATE_SLEEP: // 睡眠
             if (ssd1306_inited) {
                 ssd1306_sleep();
-                // ssd1306_oled_uninit(); // 释放OLED针脚
                 nrf_delay_ms(10);
             }
             break;
@@ -320,13 +294,10 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
         if (param == PASSKEY_STATE_INPUT) {
             // 显示输入的配对码
             oled_draw_text_16(2, TEXT_ALIGN_CENTER, 0, (const char*)passkey);
-            // 输入配对码时隐藏Buff
-            ssd1306_clr();
         } else if (param == PASSKEY_STATE_SEND) {
             // 清空配对码的显示
-            ssd1306_show_all();//显示Buff
-            //oled_clear_row(2);
-            //oled_clear_row(3);
+            oled_clear_row(2);
+            oled_clear_row(3);
         }
         status_mark_dirty();
         break;
@@ -338,8 +309,12 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
         keyboard_led = param;
         status_mark_dirty();
         break;
-	case USER_EVT_TICK:
-        ssd1306_show_dirty_block();
+    case USER_EVT_TICK:
+        if (ssd1306_inited && !ssd1306_init_show) {
+            ssd1306_init_show = true;
+            ssd1306_clr();
+            update_status_bar();
+        }
         break;
     default:
         break;
