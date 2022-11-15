@@ -23,8 +23,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "app_scheduler.h"
 #include "nrf_delay.h"
 
-#include "keyboard_battery.h"
 #include "events.h"
+#include "keyboard_battery.h"
 #include "keyboard_evt.h"
 #include "passkey.h"
 #include "power_save.h"

@@ -22,14 +22,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "app_error.h"
 #include "app_scheduler.h"
 #include "nrf_delay.h"
+#include "nrf_gpio.h"
 
-#include "keyboard_battery.h"
 #include "events.h"
+#include "keyboard_battery.h"
 #include "keyboard_evt.h"
 #include "passkey.h"
 #include "power_save.h"
 #include "queue.h"
-#include "nrf_gpio.h"
 
 #include "i2c/shared_i2c.h"
 
@@ -288,6 +288,7 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
             if (ssd1306_inited) {
                 ssd1306_sleep();
                 nrf_delay_ms(10);
+                ssd1306_oled_init();
                 ssd1306_oled_uninit();
             }
             break;
@@ -320,10 +321,12 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
         if (param == PASSKEY_STATE_INPUT) {
             // 显示输入的配对码
             oled_draw_text_16(2, TEXT_ALIGN_CENTER, 0, (const char*)passkey);
+            ssd1306_clr();// 输入配对码时隐藏图形
         } else if (param == PASSKEY_STATE_SEND) {
             // 清空配对码的显示
-            oled_clear_row(2);
-            oled_clear_row(3);
+            update_status_bar();//显示图形覆盖
+            //oled_clear_row(2);
+            //oled_clear_row(3);
         }
         status_mark_dirty();
         break;
