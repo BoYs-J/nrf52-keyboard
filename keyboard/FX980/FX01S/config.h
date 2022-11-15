@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define CONF_VENDOR_ID 0x4BDC /* 配置项目内显示的VendorID */
 #define CONF_PRODUCT_ID 0x2649 /* 配置项目内显示的ProductID */
 #define DEVICE_VER 0x0000 /* 硬件版本 */
-#define MANUFACTURER "BoYs" /* 硬件制造商，用于蓝牙显示 */
+#define MANUFACTURER "Zero" /* 硬件制造商，用于蓝牙显示 */
 #define PRODUCT "FX-980" /* 硬件名词，用于蓝牙显示 */
 // #define MACADDR_SEPRATOR ' ' /* 蓝牙名称后地址的分隔符。若不设置则不显示蓝牙名称后面的地址 */
 
