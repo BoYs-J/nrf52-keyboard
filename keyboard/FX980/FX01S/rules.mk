@@ -17,3 +17,4 @@ ONBOARD_CMSIS_DAP = yes   # 启用板载调试器
 ROTARY_ENCODER = yes # 启用编码器
 SSD1306_OLED = yes
 ACTIONMAP_ENABLE =yes
+# SOFT_ENCODER_ENABLE = yes # 启用旋转编码器（软件实现）
