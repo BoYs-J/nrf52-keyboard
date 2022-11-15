@@ -288,8 +288,7 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
             if (ssd1306_inited) {
                 ssd1306_sleep();
                 nrf_delay_ms(10);
-                ssd1306_twi_init();
-                ssd1306_oled_uninit();
+                //ssd1306_oled_uninit(); // 释放OLED针脚
             }
             break;
         default:
@@ -318,13 +317,15 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
         break;
     case USER_EVT_BLE_PASSKEY_STATE: // 配对码状态
         passkey_req = (param != PASSKEY_STATE_SEND);
-        ssd1306_clr();// 输入配对码时隐藏图形
-        if (param == PASSKEY_STATE_INPUT) {
+        if (param == PASSKEY_STATE_REQUIRE) {
+            // 输入配对码时隐藏Buff
+            ssd1306_clr();
+        } else if (param == PASSKEY_STATE_INPUT) {
             // 显示输入的配对码
             oled_draw_text_16(2, TEXT_ALIGN_CENTER, 0, (const char*)passkey);
         } else if (param == PASSKEY_STATE_SEND) {
             // 清空配对码的显示
-            ssd1306_oled_init();//初始化
+            ssd1306_show_all();//显示Buff
             //oled_clear_row(2);
             //oled_clear_row(3);
         }
