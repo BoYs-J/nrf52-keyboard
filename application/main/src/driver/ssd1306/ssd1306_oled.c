@@ -287,8 +287,8 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
         case KBD_STATE_SLEEP: // 睡眠
             if (ssd1306_inited) {
                 ssd1306_sleep();
+                ssd1306_oled_uninit(); // 释放OLED针脚
                 nrf_delay_ms(10);
-                //ssd1306_oled_uninit(); // 释放OLED针脚
             }
             break;
         default:
