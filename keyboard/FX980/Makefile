@@ -1,13 +1,31 @@
 OUTPUT_DIR = _build
-SUBDIRS=$(filter-out $(OUTPUT_DIR),$(shell ls -l | grep ^d | grep -v 'ergoconn\|farad69\|g84-4100\|gt-ble60\|gt-pad\|gt-planck\|lkb-core\|lot60-ble\|newhope64\|Omega40\|Omega45\|Omega50\|Omega64\|Omega84\|template\|volta9\|test' | awk '{print $$9}'))
-export RELEASE_DIR = ../$(OUTPUT_DIR)
+SUBDIRS=$(filter-out _build common,$(shell ls -l | grep ^d | awk '{print $$9}'))
 
-.PHONY: clean release dist_clean help
+
+## 如果上层Makefile传递了OUTPUT_DIRECTORY
+ifdef OUTPUT_DIRECTORY
+OUTPUT_DIR = $(OUTPUT_DIRECTORY)
+export RELEASE_DIR = ../$(OUTPUT_DIR)/..
+endif
+ifndef BUILD_PREFIX
+BUILD_PREFIX = "FX980"
+endif
+
+.PHONY: clean release package usb merge_setting all dist_clean
+
+package: release
+usb: 
+	@echo use make release to build your release firmware.
+merge_setting: 
+	@echo use make release to build your release firmware.
+all: 
+	@echo use make release to build your release firmware.
+
 release: $(SUBDIRS)
 
 $(SUBDIRS): $(OUTPUT_DIR)
-	@-mkdir $(OUTPUT_DIR)/$@
-	@make -C $@ release OUTPUT_DIRECTORY=$(RELEASE_DIR)/$@ BUILD_PREFIX=$@
+	@-mkdir -p $(OUTPUT_DIR)/$@
+	@make -C $@ release OUTPUT_DIRECTORY=../$(OUTPUT_DIR)/$@ BUILD_PREFIX=$(BUILD_PREFIX)-$@
 
 $(OUTPUT_DIR):
 	@-mkdir -p $(OUTPUT_DIR)
@@ -16,7 +34,7 @@ dist_clean:
 	-rm -r $(OUTPUT_DIR)/*/
 
 clean:
-	-rm -rf $(OUTPUT_DIR)
+	-rm -r $(OUTPUT_DIR)
 
 # Print all targets that can be built
 help:
