@@ -44,7 +44,7 @@ jobs:
     - name: 📤 Upload Artifact Files
       uses: actions/upload-artifact@v2
       with:
-        name: LotKB_Keyboard_Firmware_${{ env.BUILDTIME }}_${{ env.VERSION }}
+        name: LotKB_Keyboard_Firmware
         path: |
           ${{ github.workspace }}/keyboard/_build/*.zip
           ${{ github.workspace }}/keyboard/_build/*.hex
