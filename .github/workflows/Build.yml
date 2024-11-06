@@ -12,7 +12,7 @@ jobs:
     steps:
     # 下载源码
     - name: ⏬ Get source
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         submodules: recursive
     # 下载安装相关工具
