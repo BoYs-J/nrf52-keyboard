@@ -275,14 +275,18 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
     case USER_EVT_STAGE:
         switch (param) {
         case KBD_STATE_POST_INIT: // 初始化
-            ssd1306_twi_init();
-            ssd1306_oled_init();
-            //ssd1306_clr();
-            ssd1306_inited = true;
+            if (!ssd1306_inited) {
+                ssd1306_twi_init();
+                ssd1306_oled_init();
+                //ssd1306_clr();
+                ssd1306_inited = true;
+            }
             break;
         case KBD_STATE_INITED: // 显示Buff
-            update_status_bar();
-            ssd1306_show_all();
+            if (ssd1306_inited) {
+                update_status_bar();
+                ssd1306_show_all();
+            }
             break;
         case KBD_STATE_SLEEP: // 睡眠
             if (ssd1306_inited) {
