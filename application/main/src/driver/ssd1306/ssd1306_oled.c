@@ -266,10 +266,13 @@ static void status_mark_dirty()
     }
 }
 
-static bool ssd1306_inited = false, ssd1306_init_show = false;
+static bool ssd1306_inited = false, ssd1306_init_show = false, ssd1306_is_sleep = false;
 
 static void ssd1306_event_handler(enum user_event event, void* arg)
 {
+    if (ssd1306_is_sleep) {
+        return;
+    }
     uint8_t param = (uint32_t)arg;
     switch (event) {
     case USER_EVT_STAGE:
@@ -284,6 +287,7 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
             break;
         case KBD_STATE_SLEEP: // 睡眠
             if (ssd1306_inited) {
+                ssd1306_is_sleep = true;
                 ssd1306_sleep();
                 // nrf_delay_ms(10);
                 // ssd1306_oled_uninit();
@@ -334,8 +338,8 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
         status_mark_dirty();
         break;
     case USER_EVT_LED: // 键盘灯状态
-        // keyboard_led = param;
-        // status_mark_dirty();
+        keyboard_led = param;
+        status_mark_dirty();
         break;
 	case USER_EVT_TICK:
         // ssd1306_show_dirty_block();
