@@ -330,12 +330,12 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
         status_mark_dirty();
         break;
     case USER_EVT_BLE_STATE_CHANGE: // 蓝牙状态
-        // ble_conn = (param == BLE_STATE_CONNECTED);
-        // status_mark_dirty();
+        ble_conn = (param == BLE_STATE_CONNECTED);
+        status_mark_dirty();
         break;
     case USER_EVT_LED: // 键盘灯状态
-        keyboard_led = param;
-        status_mark_dirty();
+        // keyboard_led = param;
+        // status_mark_dirty();
         break;
 	case USER_EVT_TICK:
         // ssd1306_show_dirty_block();
