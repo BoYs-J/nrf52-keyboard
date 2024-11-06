@@ -285,7 +285,6 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
         case KBD_STATE_SLEEP: // 睡眠
             if (ssd1306_inited) {
                 ssd1306_sleep();
-                nrf_delay_ms(10);
                 // nrf_delay_ms(10);
                 // ssd1306_oled_uninit();
             }
@@ -305,6 +304,10 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
         default:
             break;
         }
+        break;
+    case USER_EVT_SLEEP: // 处理睡眠事件
+        // ssd1306_clr();
+        ssd1306_sleep();
         break;
     case USER_EVT_CHARGE: // 充电状态
         pwr_attach = (param != BATT_NOT_CHARGING);
@@ -327,6 +330,7 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
         status_mark_dirty();
         break;
     case USER_EVT_BLE_STATE_CHANGE: // 蓝牙状态
+
         ble_conn = (param == BLE_STATE_CONNECTED);
         status_mark_dirty();
         break;
