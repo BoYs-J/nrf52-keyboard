@@ -42,7 +42,7 @@ jobs:
 
     # 上传编译生成的固件
     - name: 📤 Upload Artifact Files
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: LotKB_Keyboard_Firmware
         path: |
