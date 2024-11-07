@@ -283,7 +283,7 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
                 ssd1306_show_all();
             break;
         case KBD_STATE_SLEEP: // 睡眠
-            if (ssd1306_inited) {
+            if (!ssd1306_is_sleep && ssd1306_inited) {
                 ssd1306_is_sleep = true;
                 ssd1306_sleep();
                 nrf_delay_ms(10);
@@ -297,8 +297,11 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
     case USER_EVT_POWERSAVE: // 处理省电模式
         switch (param) {
         case PWR_SAVE_ENTER:
-            ssd1306_sleep();
-            break;
+            if (!ssd1306_is_sleep && ssd1306_inited) {
+                ssd1306_is_sleep = true;
+                ssd1306_sleep();
+                break;
+            }
         case PWR_SAVE_EXIT:
             ssd1306_is_sleep = false;
             ssd1306_wake();
@@ -308,23 +311,14 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
         }
         break;
     case USER_EVT_CHARGE: // 充电状态
-        if (ssd1306_is_sleep) {
-            break;
-        }
         pwr_attach = (param != BATT_NOT_CHARGING);
         status_mark_dirty();
         break;
     case USER_EVT_USB: // USB状态
-        if (ssd1306_is_sleep) {
-            break;
-        }
         usb_conn = (param == USB_WORKING);
         status_mark_dirty();
         break;
     case USER_EVT_BLE_PASSKEY_STATE: // 配对码状态
-        if (ssd1306_is_sleep) {
-            break;
-        }
         passkey_req = (param != PASSKEY_STATE_SEND);
         if (param == PASSKEY_STATE_INPUT) {
             // 显示输入的配对码
@@ -345,9 +339,6 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
         status_mark_dirty();
         break;
 	case USER_EVT_TICK:
-        if (ssd1306_is_sleep) {
-            break;
-        }
         // ssd1306_show_dirty_block();
         if (ssd1306_inited && !ssd1306_init_show) {
             ssd1306_init_show = true;
