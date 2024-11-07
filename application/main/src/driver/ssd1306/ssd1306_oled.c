@@ -283,7 +283,7 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
                 ssd1306_show_all();
             break;
         case KBD_STATE_SLEEP: // 睡眠
-            if (!ssd1306_is_sleep && ssd1306_inited) {
+            if (ssd1306_inited) {
                 ssd1306_is_sleep = true;
                 ssd1306_sleep();
                 nrf_delay_ms(10);
@@ -295,16 +295,14 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
         }
         break;
     case USER_EVT_POWERSAVE: // 处理省电模式
-        if (ssd1306_is_sleep && ssd1306_inited) {
+        if (ssd1306_is_sleep) {
             break;
         }
         switch (param) {
         case PWR_SAVE_ENTER:
-            ssd1306_is_sleep = true;
             ssd1306_sleep();
             break;
         case PWR_SAVE_EXIT:
-            ssd1306_is_sleep = false;
             ssd1306_wake();
             break;
         default:
