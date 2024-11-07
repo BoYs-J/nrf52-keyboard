@@ -268,7 +268,6 @@ static void sleep_delay_handler(void* p_context)
     uint8_t sleep_mode = (uint32_t)p_context;
     switch (sleep_mode) {
     case SLEEP_EVT_AUTO:
-        break;
     case SLEEP_EVT_MANUAL:
         sleep_mode_enter(true);
         break;
