@@ -273,9 +273,6 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
     uint8_t param = (uint32_t)arg;
     switch (event) {
     case USER_EVT_STAGE:
-        if (ssd1306_is_sleep) {
-            break;
-        }
         switch (param) {
         case KBD_STATE_POST_INIT: // 初始化
                 ssd1306_twi_init();
@@ -311,14 +308,23 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
         }
         break;
     case USER_EVT_CHARGE: // 充电状态
+        if (ssd1306_is_sleep) {
+            break;
+        }
         pwr_attach = (param != BATT_NOT_CHARGING);
         status_mark_dirty();
         break;
     case USER_EVT_USB: // USB状态
+        if (ssd1306_is_sleep) {
+            break;
+        }
         usb_conn = (param == USB_WORKING);
         status_mark_dirty();
         break;
     case USER_EVT_BLE_PASSKEY_STATE: // 配对码状态
+        if (ssd1306_is_sleep) {
+            break;
+        }
         passkey_req = (param != PASSKEY_STATE_SEND);
         if (param == PASSKEY_STATE_INPUT) {
             // 显示输入的配对码
@@ -339,6 +345,9 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
         status_mark_dirty();
         break;
 	case USER_EVT_TICK:
+        if (ssd1306_is_sleep) {
+            break;
+        }
         // ssd1306_show_dirty_block();
         if (ssd1306_inited && !ssd1306_init_show) {
             ssd1306_init_show = true;
