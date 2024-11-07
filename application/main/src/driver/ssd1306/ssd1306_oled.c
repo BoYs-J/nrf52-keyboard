@@ -270,12 +270,12 @@ static bool ssd1306_inited = false, ssd1306_init_show = false, ssd1306_is_sleep 
 
 static void ssd1306_event_handler(enum user_event event, void* arg)
 {
-    if (ssd1306_is_sleep) {
-        return;
-    }
     uint8_t param = (uint32_t)arg;
     switch (event) {
     case USER_EVT_STAGE:
+        if (ssd1306_is_sleep) {
+            break;
+        }
         switch (param) {
         case KBD_STATE_POST_INIT: // 初始化
                 ssd1306_twi_init();
@@ -289,8 +289,8 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
             if (ssd1306_inited) {
                 ssd1306_is_sleep = true;
                 ssd1306_sleep();
-                // nrf_delay_ms(10);
-                // ssd1306_oled_uninit();
+                nrf_delay_ms(10);
+                ssd1306_oled_uninit();
             }
             break;
         default:
@@ -303,15 +303,12 @@ static void ssd1306_event_handler(enum user_event event, void* arg)
             ssd1306_sleep();
             break;
         case PWR_SAVE_EXIT:
+            ssd1306_is_sleep = false;
             ssd1306_wake();
             break;
         default:
             break;
         }
-        break;
-    case USER_EVT_SLEEP: // 处理睡眠事件
-        // ssd1306_clr();
-        ssd1306_sleep();
         break;
     case USER_EVT_CHARGE: // 充电状态
         pwr_attach = (param != BATT_NOT_CHARGING);
