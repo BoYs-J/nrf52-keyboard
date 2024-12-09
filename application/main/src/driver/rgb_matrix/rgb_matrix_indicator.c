@@ -77,8 +77,8 @@ void rgb_matrix_indicators_advanced_kb(uint8_t led_min, uint8_t led_max)
                 }
             }
         }
-    }
 #endif
+    }
 }
 
 static void rgb_matrix_indicators_on(void) {
