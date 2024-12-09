@@ -7,7 +7,7 @@ on:
 jobs:
   build:
     name: Build all keyboard
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
     # 下载源码
