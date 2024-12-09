@@ -150,6 +150,7 @@ static const uint8_t column_pin_array[MATRIX_COLS] = {16, 5, 7, 13, 18, 26, 27, 
 
 #define ROW_IN // 键盘阵列的二极管方向是从COL->ROW
 
+/*
 // 旋钮配置
 #define ROTARY_ENCODER_A 23
 #define ROTARY_ENCODER_B 24
@@ -159,6 +160,7 @@ static const uint8_t column_pin_array[MATRIX_COLS] = {16, 5, 7, 13, 18, 26, 27, 
 #define ROTARY_ENCODER_NEG 9,10
 // 独立旋钮按键  用于关机后开机
 // #define ROTARY_BUTTON 10
+*/
 
 // SSD1306 LCD屏幕
 #define SSD1306_SDA 20 // OLED屏幕的I2C SDA引脚编号
