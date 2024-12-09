@@ -39,16 +39,12 @@ jobs:
         cd keyboard
         make -j4
         cd ../
-    # 生成发布tag
-    - name: 🎉 Generate release tag
-      run: |
-        echo "VERSION=11`git log --abbrev-commit --pretty=oneline -1 | cut -c 1-6 || echo 'unknown'`" >> $GITHUB_ENV
-        echo "BUILDTIME=`date '+%Y%m%d'`" >> $GITHUB_ENV
+
     # 上传编译生成的固件
     - name: 📤 Upload Artifact Files
       uses: actions/upload-artifact@v4
       with:
-        name: LotKB_Keyboard_Firmware_${{ env.BUILDTIME }}_${{ env.VERSION }}
+        name: LotKB_Keyboard_Firmware
         path: |
           ${{ github.workspace }}/keyboard/_build/*.zip
           ${{ github.workspace }}/keyboard/_build/*.hex
