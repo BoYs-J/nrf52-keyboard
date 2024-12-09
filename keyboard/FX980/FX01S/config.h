@@ -160,14 +160,12 @@ static const uint8_t column_pin_array[MATRIX_COLS] = {16, 5, 7, 13, 18, 26, 27, 
 // 独立旋钮按键  用于关机后开机
 // #define ROTARY_BUTTON 10
 
-/*
 // SSD1306 LCD屏幕
 #define SSD1306_SDA 20 // OLED屏幕的I2C SDA引脚编号
 #define SSD1306_SCL 21 // OLED屏幕的I2C SCL引脚编号
 //#define SSD1306_ROTATE_180 // 旋转180度
 #define SSD1306_LCDHEIGHT 64 //OLED屏幕的高度像素，当前支持32与64，默认为32
 //#define SSD1306_ROTATE_180 // 旋转180度
-*/
 
 /* define if matrix has ghost */
 // #define MATRIX_HAS_GHOST /* 按键阵列是否出现Ghost Key，若没有加二极管则需要启用这个项目 */
