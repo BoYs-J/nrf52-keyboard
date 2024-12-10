@@ -26,11 +26,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 /* 
  * 定义需使用的FN按键
  */
-#define AC_FN0 ACTION_LAYER_TOGGLE(1)
-#define AC_FN1 ACTION_LAYER_TOGGLE(1)
+#define AC_FN0    ACTION_LAYER_TOGGLE(1)
+#define AC_FN1    ACTION_LAYER_TOGGLE(1)
 
-#define AC_FN2 ACTION_LAYER_TAP(2, KC_MENU)
-#define AC_FN3 ACTION_LAYER_TAP(2, KC_MENU)
+#define AC_FN2    ACTION_LAYER_TAP(2, KC_MENU)
+#define AC_FN3    ACTION_LAYER_TAP(2, KC_MENU)
 
 /* 
  * @brief 按键映射
@@ -41,10 +41,10 @@ const action_t actionmaps[][MATRIX_ROWS][MATRIX_COLS] = {
         ESC, F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12, HOME, END, FN0, 
         GRV, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, MINS, EQL, BSPC, INS, NLCK, PSLS, PAST, PMNS, 
         TAB, Q, W, E, R, T, Y, U, I, O, P, LBRC, RBRC, BSLS, DEL, P7, P8, P9, PPLS, 
-        CAPS, A, S, D, F, G, H, J, K, L, SCLN, QUOT, ENT, P4, P5, P6, 
+        CAPS, A, S, D, F, G, H, J, K, L, SCLN, QUOT, ENT, P4, P5, P6,  
         LSFT, Z, X, C, V, B, N, M, COMM, DOT, SLSH, RSFT, UP, P1, P2, P3, PENT, 
         LCTL, LGUI, LALT, SPC, RALT, RGUI, FN2, RCTL, LEFT, DOWN, RGHT, P0, PDOT, VOLD, VOLU),
-
+		
 	[1] = ACTIONMAP_ROT(
         ESC, F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12, HOME, END, FN1, 
         GRV, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, MINS, EQL, BSPC, INS, NLCK, PSLS, PAST, PMNS, 
@@ -52,6 +52,22 @@ const action_t actionmaps[][MATRIX_ROWS][MATRIX_COLS] = {
         CAPS, A, S, D, F, G, H, J, K, L, SCLN, QUOT, ENT, P4, P5, P6,  
         LSFT, Z, X, C, V, B, N, M, COMM, DOT, SLSH, RSFT, UP, P1, P2, P3, PENT, 
         LCTL, LGUI, LALT, SPC, RALT, RGUI, FN3, RCTL, LEFT, DOWN, RGHT, P0, PDOT, BRTD, BRTI),
+    
+    [2] = ACTIONMAP(
+        ESC, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, 
+        TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, 
+        TRNS, BTN1, MS_U, BTN2, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, 
+        TRNS, MS_L, MS_D, MS_R, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, 
+        TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, WH_U, TRNS, TRNS, TRNS, TRNS,  
+        TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, WH_L, WH_D, WH_R, TRNS, TRNS),
+
+	[3] = ACTIONMAP(
+        ESC, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, 
+        TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, 
+        TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, 
+        TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, 
+        TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, 
+        TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS),
 };
 
 #define NO NO_LED
@@ -59,16 +75,16 @@ const action_t actionmaps[][MATRIX_ROWS][MATRIX_COLS] = {
 led_config_t g_led_config = {
     {
         // Key Matrix to LED Index
-        { 0,   1,  2,  3,  4,  5,      6,   7,   8,  9,  NO_LED },
-        { 17, 18, 19, 20, 21, 22,     23,  24,  25, 26,  NO_LED },
-        { 36, 37, 38, 39, 40, 41,     42,  43,  44, 45,  NO_LED },
-        { 54, 55, 56, 57, 58, 59,     60,  61,  62, 63,  NO_LED },
-        { 71, 72, 73, 74, 75, 76,     77,  78,  79, 80,  NO_LED },
-        { 88, 89, 90, 92, 94, 95,     96,  97,  98, 99,  NO_LED },
-        { 10, 11, 12, 13, 14, NO_LED, 33,  34,  35, 70,  NO_LED },
-        { 27, 28, 29, 30, 31, 32,     51,  52,  53, 69,  NO_LED },
-        { 46, 47, 48, 49, 50, 67,     68,  85,  86, 87,  NO_LED },
-        { 64, 65, 81, 82, 66, 83,     84, 100, 101, 102, NO_LED },
+        {  0,  1,  2,  3,  4,  5,  6,   7,   8,   9, NO },
+        { 17, 18, 19, 20, 21, 22, 23,  24,  25,  26, NO },
+        { 36, 37, 38, 39, 40, 41, 42,  43,  44,  45, NO },
+        { 54, 55, 56, 57, 58, 59, 60,  61,  62,  63, NO },
+        { 71, 72, 73, 74, 75, 76, 77,  78,  79,  80, NO },
+        { 88, 89, 90, 92, 94, 95, 96,  97,  98,  99, NO },
+        { 10, 11, 12, 13, 14, NO, 33,  34,  35,  70, NO },
+        { 27, 28, 29, 30, 31, 32, 51,  52,  53,  69, NO },
+        { 46, 47, 48, 49, 50, 67, 68,  85,  86,  87, NO },
+        { 64, 65, 81, 82, 66, 83, 84, 100, 101, 102, NO },
     },
     { // LED Index to Physical Position
         { 0, 0 }, { 23, 0 }, { 35, 0 }, { 46, 0 }, { 58, 0 }, { 75, 0 }, { 86, 0 }, { 98, 0 }, { 109, 0 }, { 127, 0 }, { 138, 0 }, { 150, 0 }, { 161, 0 }, { 175, 0 }, { 190, 0 }, { 201, 0 }, { 213, 0 }, 
@@ -81,17 +97,17 @@ led_config_t g_led_config = {
         { 6, 19 }, { 6, 7 }, { 30, 7 }, { 53, 7 }, { 77, 7 }, { 100, 7 }, { 124, 7 }, { 147, 7 }, { 171, 7 }, { 195, 7 }, { 218, 7 }, { 218, 19 }, { 218, 31 }, 
 	},
     { // LED Index to Flag
-        4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
-        4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
-        4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
-        4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
-        4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
-        4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
-        4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
-        4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
-        4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
-        4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
-        4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
-        4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
+        4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+        4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+        4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+        4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+        4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+        4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+        4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+        4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+        4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+        4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+        4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+        4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
     }
 };

@@ -104,7 +104,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // #define LED_BLE_CHANNEL1 19
 // #define LED_BLE_CHANNEL2 20
 // #define LED_BLE_CHANNEL3 18
-#define LED_POSITIVE // LED上拉驱动
+// #define LED_POSITIVE // LED上拉驱动
 
 // RGB 配置
 //#define LED_RGB_CC // 是否为共阴LED
