@@ -36,7 +36,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // 定义Bootmagic按键
 #define BOOTMAGIC_KEY_BOOT KC_U /* 开机 */
-#define BOOTMAGIC_KEY_ERASE_BOND KC_E /* 删除所有绑定 */
+#define BOOTMAGIC_KEY_ERASE_BOND KC_T /* 删除所有绑定 */
 
 // 键盘省电参数
 #define SLEEP_SLOW_TIMEOUT 15 // 键盘闲置多久后转入慢速扫描模式 (s)
